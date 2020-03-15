@@ -1,0 +1,33 @@
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>API Gateway TestPage</title>
+</head>
+<body>
+    <h3>WEB⇔COBOL連携</h3>
+    <input id="in1" type="text"></input><br>
+    <input id="in2" type="text"></input><br>
+    <button id="exec">実行</button><br><br>
+    <div id="res"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(function() {
+    $('#exec').on('click', function() {
+        $.ajax({
+            type:'POST',
+            url:'https://upa70bz7j0.execute-api.ap-northeast-1.amazonaws.com/cobo/cobol2020',
+            data:JSON.stringify({
+                "text1" : document.getElementById("in1").value,
+                "text2" : document.getElementById("in2").value
+                })
+        }).done(json => {
+            $('#res').html("StatusCode：" + json['statusCode'] + "<br>" + 
+            "Message：" + json['body'] + "<br>" + 
+            "入力値１：" + json['input']["text1"] + "<br>"+ 
+            "入力値２：" + json['input']["text2"]);
+        });
+    });
+})
+</script>
+</body>
+</html>
